@@ -1,7 +1,14 @@
 <template>
   <div id="app">
-    <md-table  v-if="foundData" v-model="collegeData" md-sort="name" md-card>
-      <md-table-toolbar>Schools in NYC</md-table-toolbar>
+    <md-table  v-if="foundData" v-model="searched" md-sort="name" md-card>
+      <md-table-toolbar>
+        <div class="md-toolbar-section-start">
+          <h1 class="md-title">Schools in Nyc</h1>
+        </div>
+        <md-field md-clearable class="md-toolbar-section-end">
+          <md-input placeholder="Search by name..." v-model="search" @input="searchTable" />
+        </md-field>
+      </md-table-toolbar>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="School Name" md-sort-by="school_name">{{ item["school_name"] }}</md-table-cell>
         <md-table-cell md-label="School State" >{{ item["school_state"] }}</md-table-cell>
@@ -16,15 +23,24 @@
 <script>
 /* eslint-disable */
 import axios from 'axios'
+
+  const searchByName = (items, term) => {
+    if (term) {
+      return items.filter(item => item.school_name.toString().toLowerCase().includes(term.toLowerCase()))
+    }
+    return items
+  }
 export default {
   name: 'app',
   data() {
     return {
-      collegeData: {},
+      search: null,
+      searched: [],
+      collegeData: [],
       foundData: false,
     }
   },
-  mounted() {
+  mounted(){
     this.getCollegeData();
   },
   methods: {
@@ -35,7 +51,11 @@ export default {
         .then((res) => {
           this.collegeData = res.data[0].results
           this.foundData = true;
+          this.searched = this.collegeData
         })
+    },
+    searchTable() {
+      this.searched = searchByName(this.collegeData, this.search)
     },
   },
 }
@@ -49,5 +69,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.md-field {
+  max-width: 300px;
+  float: right;
 }
 </style>
