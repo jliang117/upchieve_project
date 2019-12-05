@@ -1,29 +1,24 @@
 # upchieve
 
+#Demo
+
+![demo](demo.gif)
+
 ## Project setup
 ```
 npm install
+cd src/server
+npm install
 ```
 
-### Compiles and hot-reloads for development
+### Running
+(start from base dir)
 ```
 npm run serve
 ```
+in another terminal
 
-### Compiles and minifies for production
 ```
-npm run build
+cd src/server
+npm start
 ```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
